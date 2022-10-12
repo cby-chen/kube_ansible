@@ -2,9 +2,17 @@
 
 ### ansible 二进制安装 k8s  
 
-#### 执行此脚本需要在单独的机器执行，在集群之外的机器上执行，因为过程中需要重启集群，
+#### 执行此脚本需要在单独的机器执行，在集群之外的机器上执行，因为过程中需要重启集群
+
+地址 ： [cby-chen/kube_ansible: 使用 ansible 安装 Kubernetes 高可用集群 (github.com)](https://github.com/cby-chen/kube_ansible)
+
+https://github.com/cby-chen/kube_ansible
+
 
 ```shell
+克隆仓库
+git clone https://github.com/cby-chen/kube_ansible
+
 在控制主机上进行配置免密
 apt install -y sshpass
 ssh-keygen -f /root/.ssh/id_rsa -P ''

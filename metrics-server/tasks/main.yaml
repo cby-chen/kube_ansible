@@ -1,7 +1,7 @@
-- name: coredns.yaml
+- name: metrics-server.yaml
   copy: 
-    src: coredns.yaml
+    src: metrics-server.yaml
     dest: /root/
 
 - name: calico
-  shell: kubectl apply -f coredns.yaml 
+  shell: kubectl apply -f metrics-server.yaml
