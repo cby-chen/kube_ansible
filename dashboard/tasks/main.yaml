@@ -1,8 +1,11 @@
 - name: metrics-server.yaml
   copy: 
-    src: 
-      - dashboard.yaml
-      - dashboard-user.yaml
+    src: dashboard.yaml
+    dest: /root/
+
+- name: metrics-server.yaml
+  copy: 
+    src: dashboard-user.yaml
     dest: /root/
 
 - name: calico

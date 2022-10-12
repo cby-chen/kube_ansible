@@ -1,8 +1,11 @@
-- name: metrics-server.yaml
+- name: deploy.yaml
   copy: 
-    src: 
-      - deploy.yaml 
-      - backend.yaml 
+    src: deploy.yaml 
+    dest: /root/
+
+- name: backend.yaml
+  copy: 
+    src: backend.yaml 
     dest: /root/
 
 - name: calico
