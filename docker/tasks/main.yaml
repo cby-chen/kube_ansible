@@ -1,0 +1,67 @@
+- name: CentOS install packages
+  yum:
+    name: '{{ os_centos_packages_list }}'
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: CentOS repo
+  shell: yum-config-manager --add-repo https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
+  when: ansible_distribution == "CentOS"
+
+- name: CentOS install packages
+  yum:
+    name: '{{ docker_list }}'
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install packages
+  apt:
+    name: '{{ os_ubuntu_packages_list }}'
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Ubuntu repo
+  shell: add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Ubuntu install packages
+  apt:
+    name: '{{ docker_list }}'
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: mkdir
+  shell: mkdir -p /etc/docker
+
+- name: config
+  copy: 
+    src: daemon.json
+    dest: /etc/docker/
+
+- name: service docker
+  service: 
+    name: docker
+    state: restarted
+    enabled: yes
+
+- name: cri-dockerd
+  shell: tar xvf cri-dockerd-*.amd64.tgz -C /usr/bin/
+
+- name: cri-dockerd config
+  copy: 
+    src: cri-docker.service
+    dest: /usr/lib/systemd/system/
+
+- name: cri-dockerd config
+  copy: 
+    src: cri-docker.socket
+    dest: /usr/lib/systemd/system/
+
+- name: systemctl
+  shell: systemctl daemon-reload
+
+- name: service cri-docker
+  service: 
+    name: cri-docker
+    state: restarted
+    enabled: yes

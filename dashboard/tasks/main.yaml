@@ -1,0 +1,9 @@
+- name: metrics-server.yaml
+  copy: 
+    src: 
+      - dashboard.yaml
+      - dashboard-user.yaml
+    dest: /root/
+
+- name: calico
+  shell: kubectl apply -f dashboard.yaml &&  kubectl apply -f dashboard-user.yaml

@@ -1,0 +1,4 @@
+{
+    "registry-mirrors": ["https://ted9wxpi.mirror.aliyuncs.com"],
+    "exec-opts": ["native.cgroupdriver=systemd"]
+  }

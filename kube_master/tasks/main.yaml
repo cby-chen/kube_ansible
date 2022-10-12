@@ -1,0 +1,37 @@
+- name: master systemd
+  template: src={{ item }}.j2 dest=/usr/lib/systemd/system/{{ item }}
+  with_items:
+  - kube-apiserver.service
+  - kube-controller-manager.service
+  - kube-scheduler.service
+
+- name: config 
+  shell: mkdir -p /root/.kube && cp /etc/kubernetes/admin.kubeconfig /root/.kube/config 
+
+- name: daemon-reload
+  shell: systemctl daemon-reload
+
+- name: service apiserver
+  service: 
+    name: kube-apiserver.service
+    state: restarted
+    enabled: yes
+- name: service controller
+  service: 
+    name: kube-controller-manager.service
+    state: restarted
+    enabled: yes
+- name: service scheduler
+  service: 
+    name: kube-scheduler.service
+    state: restarted
+    enabled: yes
+
+- name: bootstrap
+  copy: 
+    src: bootstrap.secret.yaml
+    dest: /root/
+
+- name: bootstrap
+  shell: cd /root/ && kubectl create -f bootstrap.secret.yaml
+  ignore_errors: yes

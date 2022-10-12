@@ -1,0 +1,7 @@
+- name: limits
+  copy: 
+    src: limits.conf
+    dest: /etc/security/
+
+- name: limits
+  shell: 'ulimit -SHn 65535'

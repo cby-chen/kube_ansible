@@ -1,0 +1,6 @@
+- name: NetworkManager
+  copy: 
+    src: calico.conf
+    dest: /etc/NetworkManager/conf.d/
+  notify: NetworkManager
+  when: ansible_distribution == "CentOS"

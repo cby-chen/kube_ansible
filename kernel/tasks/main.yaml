@@ -1,0 +1,37 @@
+- name: CentOS 7 epel repo
+  shell: yum install https://www.elrepo.org/elrepo-release-7.el7.elrepo.noarch.rpm -y
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: CentOS 7 epel repo
+  shell: sed -i "s@mirrorlist@#mirrorlist@g" /etc/yum.repos.d/elrepo.repo && sed -i "s@elrepo.org/linux@mirrors.tuna.tsinghua.edu.cn/elrepo@g" /etc/yum.repos.d/elrepo.repo
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: CentOS 7 install kernel
+  shell: yum  --disablerepo="*"  --enablerepo="elrepo-kernel"  list  available -y && yum  --enablerepo=elrepo-kernel  install  kernel-ml -y
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: CentOS 7 set kernel
+  shell: grubby --set-default $(ls /boot/vmlinuz-* | grep elrepo)
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: CentOS 7 reboot
+  reboot: 
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+
+- name: CentOS 8 epel repo
+  shell: yum install https://www.elrepo.org/elrepo-release-8.el8.elrepo.noarch.rpm -y
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
+
+- name: CentOS 8 epel repo
+  shell: sed -i "s@mirrorlist@#mirrorlist@g" /etc/yum.repos.d/elrepo.repo && sed -i "s@elrepo.org/linux@mirrors.tuna.tsinghua.edu.cn/elrepo@g" /etc/yum.repos.d/elrepo.repo
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
+
+- name: CentOS 8 install kernel
+  shell: yum  --disablerepo="*"  --enablerepo="elrepo-kernel"  list  available -y && yum  --enablerepo=elrepo-kernel  install  kernel-ml -y
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
+
+- name: CentOS 8 reboot
+  reboot: 
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
+

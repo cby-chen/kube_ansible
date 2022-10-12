@@ -1,0 +1,7 @@
+- name: coredns.yaml
+  copy: 
+    src: coredns.yaml
+    dest: /root/
+
+- name: calico
+  shell: kubectl apply -f coredns.yaml 

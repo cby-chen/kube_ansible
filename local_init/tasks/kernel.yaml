@@ -1,0 +1,4 @@
+- name: kernel config
+  copy:
+    src: kernel.conf
+    dest: /etc/sysctl.d/

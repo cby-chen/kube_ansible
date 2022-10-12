@@ -1,0 +1,97 @@
+# 在执行此playbook时，请先 cd files/ 执行 bash download.sh
+
+# 基础环境初始化 
+# hosts 写【etcd、kube master、kube node】所处的IP地址
+# hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
+# vars 中环境变量需要根据实际情况写
+#     all 写所有IP地址
+#     passed 是所有的系统密码，此密码需要所有主机相同
+- hosts: 
+  - etcd
+  - kube_master
+  - kube_node
+  remote_user: root
+  vars:
+    - all: 10.0.0.110 10.0.0.111 10.0.0.112 10.0.0.113 10.0.0.114
+    - passwd: 123123
+  roles:
+    - role: local_init
+    - role: chrony
+      when: "groups['chrony']|length > 0" 
+    - role: kernel
+    - role: containerd
+    - role: docker
+
+
+
+# 创建证书初始化 
+# hosts 写【kube master 01】所在的IP地址 【建议在 kube master 01 上执行】
+# hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
+# vars 中环境变量需要根据实际情况写
+#     all 写所有IP地址
+#     etcd 写 etcd 的所有IP地址
+#     Master 写所有 kube master 的IP地址
+#     Work 写所有 kube node 的IP地址
+# 
+# 在执行之前请先修改 pki/files/pki.sh 中环境变量 ！！！！！
+# 
+- hosts: 
+  - kube_pki
+  remote_user: root
+  roles:
+    - role: pki
+  vars:
+    - all: 10.0.0.110 10.0.0.111 10.0.0.112 10.0.0.113 10.0.0.114
+    - etcd: 10.0.0.110 10.0.0.111 10.0.0.112
+    - Master:  10.0.0.110 10.0.0.111 10.0.0.112
+    - Work: 10.0.0.113 10.0.0.114
+
+
+# # 初始化etcd集群
+# # hosts 写【etcd】所在的IP地址
+# # hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
+- hosts: 
+  - etcd
+  remote_user: root
+  roles:
+    - role: etcd
+
+
+# 初始化master集群
+# hosts 写【kube_master】所在的IP地址
+# hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
+# 
+# 在执行之前请先修改 lb/files/lb.sh 中环境变量 ！！！！！
+# 
+- hosts: 
+  - kube_master
+  remote_user: root
+  roles:
+    - role: lb
+    - role: kube_master
+    - role: completion
+
+
+# 初始化node集群
+# hosts 写【kube_master kube_node】所在的IP地址
+# hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
+- hosts: 
+  - kube_master
+  - kube_node
+  remote_user: root
+  roles:
+    - role: kube_node
+
+
+# 执行部署，hosts写master 随机一个IP即可 calico 和 cilium 二选一即可
+- hosts: 
+  - 10.0.0.110
+  remote_user: root
+  roles:
+    # - role: calico
+    - role: cilium
+    - role: coredns
+    - role: coredns
+    - role: dashboard
+    - role: ingress
+    - role: metrics-server

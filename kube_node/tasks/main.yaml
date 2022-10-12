@@ -1,0 +1,30 @@
+- name: node systemd 
+  template: src={{ item }}.j2 dest=/usr/lib/systemd/system/{{ item }}
+  with_items:
+  - kubelet.service
+  - kube-proxy.service
+
+- name: kubelet-conf
+  copy: 
+    src: kubelet-conf.yml
+    dest: /etc/kubernetes/
+
+- name: kube-proxy
+  copy: 
+    src: kube-proxy.yaml
+    dest: /etc/kubernetes/
+
+- name: daemon-reload
+  shell: systemctl daemon-reload
+
+- name: service kubelet
+  service: 
+    name: kubelet.service
+    state: restarted
+    enabled: yes
+
+- name: service kube-proxy
+  service: 
+    name: kube-proxy.service
+    state: restarted
+    enabled: yes

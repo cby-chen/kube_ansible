@@ -1,0 +1,16 @@
+- name: CentOS install ipvs 
+  yum:
+    name: '{{ os_centos_ipvs_list }}'
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install ipvs
+  apt:
+    name: '{{ os_ubuntu_ipvs_list }}'
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: ipvs config
+  copy:
+    src: ipvs.conf
+    dest: /etc/modules-load.d/

@@ -1,0 +1,23 @@
+- name: creat etcd
+  template: 
+    src: etcd.config.yml.j2 
+    dest: /etc/etcd/etcd.config.yml
+
+- name: copy etcd service
+  copy: 
+    src: etcd.service
+    dest: /usr/lib/systemd/system/
+
+- name: etcd init
+  shell: mkdir /etc/kubernetes/pki/etcd && ln -s /etc/etcd/ssl/* /etc/kubernetes/pki/etcd/
+  ignore_errors: true
+
+- name: daemon-reload
+  shell: systemctl daemon-reload
+  ignore_errors: true
+
+- name: start etcd
+  service: 
+    name: etcd
+    state: restarted
+    enabled: yes

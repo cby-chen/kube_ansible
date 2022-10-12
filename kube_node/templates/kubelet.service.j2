@@ -1,0 +1,32 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/kubernetes/kubernetes
+After=containerd.service
+Requires=containerd.service
+
+[Service]
+ExecStart=/usr/local/bin/kubelet \
+    --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.kubeconfig  \
+    --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+    --config=/etc/kubernetes/kubelet-conf.yml \
+    --container-runtime-endpoint=unix:///run/cri-dockerd.sock  \
+    --node-labels=node.kubernetes.io/node=
+
+[Install]
+WantedBy=multi-user.target
+
+
+# [Unit]
+# Description=Kubernetes Kubelet
+# Documentation=https://github.com/kubernetes/kubernetes
+# After=containerd.service
+# Requires=containerd.service
+# [Service]
+# ExecStart=/usr/local/bin/kubelet \
+#     --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.kubeconfig  \
+#     --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+#     --config=/etc/kubernetes/kubelet-conf.yml \
+#     --container-runtime-endpoint=unix:///run/containerd/containerd.sock  \
+#     --node-labels=node.kubernetes.io/node=
+# [Install]
+# WantedBy=multi-user.target

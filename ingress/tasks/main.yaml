@@ -1,0 +1,9 @@
+- name: metrics-server.yaml
+  copy: 
+    src: 
+      - deploy.yaml 
+      - backend.yaml 
+    dest: /root/
+
+- name: calico
+  shell: kubectl  apply -f deploy.yaml && kubectl  apply -f backend.yaml 
