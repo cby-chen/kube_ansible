@@ -3,5 +3,5 @@
     src: metrics-server.yaml
     dest: /root/
 
-- name: calico
+- name: metrics-server 
   shell: kubectl apply -f metrics-server.yaml
