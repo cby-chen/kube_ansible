@@ -14,20 +14,25 @@
     state: present
   when: ansible_distribution == "CentOS"
 
+- name: Ubuntu repo
+  shell: add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable" -y
+  when: ansible_distribution == "Ubuntu"
+
+- name: Ubuntu repo pgp
+  shell: curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+  when: ansible_distribution == "Ubuntu"
+
 - name: Ubuntu install packages
   apt:
     name: '{{ os_ubuntu_packages_list }}'
     state: present
   when: ansible_distribution == "Ubuntu"
 
-- name: Ubuntu repo
-  shell: add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable" -y
-  when: ansible_distribution == "Ubuntu"
-
 - name: Ubuntu install packages
   apt:
     name: '{{ docker_list }}'
     state: present
+    update_cache: yes
   when: ansible_distribution == "Ubuntu"
 
 - name: mkdir
