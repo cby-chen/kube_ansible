@@ -85,7 +85,7 @@
 
 # 执行部署，hosts写master 随机一个IP即可 calico 和 cilium 二选一即可
 - hosts: 
-  - 10.0.0.110
+  - kube_pki
   remote_user: root
   roles:
     # - role: calico
