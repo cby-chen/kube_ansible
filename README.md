@@ -4,6 +4,9 @@
 
 #### 执行此脚本需要在单独的机器执行，在集群之外的机器上执行，因为过程中需要重启集群
 
+Ubuntu 系统安装有问题 暂不支持
+CentOS 已支持
+
 地址 ： [cby-chen/kube_ansible: 使用 ansible 安装 Kubernetes 高可用集群 (github.com)](https://github.com/cby-chen/kube_ansible)
 
 https://github.com/cby-chen/kube_ansible
