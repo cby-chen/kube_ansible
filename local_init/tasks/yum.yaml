@@ -8,4 +8,5 @@
   apt:
     name: '{{ os_ubuntu_packages_list }}'
     state: present
+    update_cache: yes
   when: ansible_distribution == "Ubuntu"
