@@ -83,8 +83,12 @@ cri_dockerd='0.2.5'
 cfssl='1.6.2'
 cfssljson='1.6.2'
 nginx='1.22.0'
+....
 
-略
+# 执行下载命令
+bash download.sh
+
+
 ```
 
 #### 编辑证书生成的环境变量
@@ -122,10 +126,8 @@ export lb="10.0.0.110 10.0.0.111 10.0.0.112"
 #### 执行部署程序
 
 ```shell
-执行部署程序
-ansible-playbook  main.yaml
 
-catmain.yaml
+vim  main.yaml
 # 在执行此playbook时，请先 cd files/ 执行 bash download.sh
 
 # 基础环境初始化 
@@ -207,7 +209,7 @@ catmain.yaml
 
 # 执行部署，hosts写master 随机一个IP即可 calico 和 cilium 二选一即可
 - hosts: 
-  - 10.0.0.110
+  - kube_pki
   remote_user: root
   roles:
     # - role: calico
@@ -217,6 +219,10 @@ catmain.yaml
     - role: dashboard
     - role: ingress
     - role: metrics-server
+
+# 执行部署程序
+ansible-playbook  main.yaml
+
 ```
 
 #### 目录结构
