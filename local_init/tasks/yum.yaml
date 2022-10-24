@@ -5,7 +5,7 @@
   when: ansible_distribution == "CentOS"
 
 - name: Ubuntu install packages
-  yum:
+  apt:
     name: '{{ os_ubuntu_packages_list }}'
     state: present
   when: ansible_distribution == "Ubuntu"
