@@ -21,7 +21,7 @@
   when: ansible_distribution == "Ubuntu"
 
 - name: Ubuntu repo
-  shell: add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable"
+  shell: add-apt-repository "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/ $(lsb_release -cs) stable" -y
   when: ansible_distribution == "Ubuntu"
 
 - name: Ubuntu install packages
