@@ -86,6 +86,7 @@ nginx='1.22.0'
 ....
 
 # 执行下载命令
+cd files
 bash download.sh
 
 
