@@ -38,24 +38,24 @@ apt install ansible
 vim /etc/ansible/hosts 
 cat /etc/ansible/hosts 
 [kube_pki]
-192.168.1.130
+192.168.1.31
 
 [etcd]
-192.168.1.130 hostname=etcd-1
-192.168.1.132 hostname=etcd-1
-192.168.1.131 hostname=etcd-1
+192.168.1.31 hostname=etcd-1
+192.168.1.32 hostname=etcd-1
+192.168.1.33 hostname=etcd-1
 
 [kube_master]
-192.168.1.130 hostname=k8s-master-1
-192.168.1.132 hostname=k8s-master-2
-192.168.1.131 hostname=k8s-master-3
+192.168.1.31 hostname=k8s-master-1
+192.168.1.32 hostname=k8s-master-2
+192.168.1.33 hostname=k8s-master-3
 
 [kube_node]
-192.168.1.128 hostname=k8s-node-1
-192.168.1.129 hostname=k8s-node-2
+192.168.1.34 hostname=k8s-node-1
+192.168.1.35 hostname=k8s-node-2
 
 [chrony]
-192.168.1.130
+192.168.1.31
 ```
 
 #### 编辑需要下载安装包版本
