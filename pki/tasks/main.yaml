@@ -28,7 +28,7 @@
   shell: cd /root/files/ && bash pki.sh
 
 - name: scp pkg
-  shell: for NODE in {{ Master }}; do echo $NODE; scp /usr/local/bin/kube{let,ctl,-apiserver,-controller-manager,-scheduler,-proxy} $NODE:/usr/local/bin/; scp /usr/local/bin/etcd* $NODE:/usr/local/bin/; done && for NODE in {{ Work }}; do scp /usr/local/bin/kube{let,-proxy} $NODE:/usr/local/bin/ ; done
+  shell: for NODE in {{ Master }}; do echo $NODE; scp /usr/local/bin/kube* $NODE:/usr/local/bin/; scp /usr/local/bin/etcd* $NODE:/usr/local/bin/; done && for NODE in {{ Work }}; do scp /usr/local/bin/kube* $NODE:/usr/local/bin/ ; done
 
 - name: scp etcd pki
   shell: for NODE in {{ etcd }}; do ssh $NODE "mkdir -p /etc/etcd/ssl"; for FILE in etcd-ca-key.pem  etcd-ca.pem  etcd-key.pem  etcd.pem; do scp /etc/etcd/ssl/${FILE} $NODE:/etc/etcd/ssl/${FILE}; done; done

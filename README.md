@@ -1,16 +1,14 @@
-
-
-### ansible 二进制安装 k8s  
+### ansible 二进制安装 k8s
 
 #### 执行此脚本需要在单独的机器执行，在集群之外的机器上执行，因为过程中需要重启集群
 
-Ubuntu 系统安装有问题 暂不支持
-CentOS 已支持
+此脚本可以部署kubernetes 1.25.x 系列环境
+
+Ubuntu 和 CentOS7 和 CentOS8 已支持
 
 地址 ： [cby-chen/kube_ansible: 使用 ansible 安装 Kubernetes 高可用集群 (github.com)](https://github.com/cby-chen/kube_ansible)
 
 https://github.com/cby-chen/kube_ansible
-
 
 ```shell
 克隆仓库
@@ -19,7 +17,7 @@ git clone https://github.com/cby-chen/kube_ansible
 在控制主机上进行配置免密
 apt install -y sshpass
 ssh-keygen -f /root/.ssh/id_rsa -P ''
-export IP="10.0.0.110 10.0.0.111 10.0.0.112 10.0.0.113 10.0.0.114"
+export IP="192.168.1.130 192.168.1.131 192.168.1.132 192.168.1.128 192.168.1.129"
 export SSHPASS=123123
 for HOST in $IP;do
      sshpass -e ssh-copy-id -o StrictHostKeyChecking=no $HOST
@@ -40,24 +38,24 @@ apt install ansible
 vim /etc/ansible/hosts 
 cat /etc/ansible/hosts 
 [kube_pki]
-10.0.0.110
+192.168.1.130
 
 [etcd]
-10.0.0.110 hostname=etcd-1
-10.0.0.111 hostname=etcd-1
-10.0.0.112 hostname=etcd-1
+192.168.1.130 hostname=etcd-1
+192.168.1.132 hostname=etcd-1
+192.168.1.131 hostname=etcd-1
 
 [kube_master]
-10.0.0.110 hostname=k8s-master-1
-10.0.0.111 hostname=k8s-master-2
-10.0.0.112 hostname=k8s-master-3
+192.168.1.130 hostname=k8s-master-1
+192.168.1.132 hostname=k8s-master-2
+192.168.1.131 hostname=k8s-master-3
 
 [kube_node]
-10.0.0.113 hostname=k8s-node-1
-10.0.0.114 hostname=k8s-node-2
+192.168.1.128 hostname=k8s-node-1
+192.168.1.129 hostname=k8s-node-2
 
 [chrony]
-10.0.0.110
+192.168.1.130
 ```
 
 #### 编辑需要下载安装包版本
@@ -67,6 +65,7 @@ cat /etc/ansible/hosts
 vim files/download.sh
 cat files/download.sh
 #!/bin/bash
+
 # 查看版本地址：
 # 
 # https://github.com/containernetworking/plugins/releases/
@@ -76,7 +75,11 @@ cat files/download.sh
 # https://github.com/etcd-io/etcd/releases/
 # https://github.com/cloudflare/cfssl/releases/
 # https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
+# https://github.com/opencontainers/runc/releases/
+# https://download.docker.com/linux/static/stable/x86_64/
+
 # 指定版本 kubernetes 只能选择 v1.25.x
+
 kubernetes_server='v1.25.2'
 etcd='v3.5.4'
 cni_plugins='v1.1.1'
@@ -85,7 +88,8 @@ crictl='v1.24.2'
 cri_dockerd='0.2.5'
 cfssl='1.6.2'
 cfssljson='1.6.2'
-nginx='1.22.0'
+docker_v='20.10.9'
+runc='1.1.4'
 ....
 
 # 执行下载命令
@@ -102,10 +106,10 @@ bash download.sh
 vim pki/files/pki.sh
 cat pki/files/pki.sh
 #!/bin/bash
-export k8s_master01="10.0.0.110"
-export k8s_master02="10.0.0.111"
-export k8s_master03="10.0.0.112"
-export lb_vip="10.0.0.66"
+export k8s_master01="192.168.1.130"
+export k8s_master02="192.168.1.132"
+export k8s_master03="192.168.1.131"
+export lb_vip="192.168.1.22"
 
 略
 ```
@@ -117,12 +121,12 @@ export lb_vip="10.0.0.66"
 vim lb/files/lb.sh
 cat lb/files/lb.sh
 #!/bin/bash
-export lb1="10.0.0.110"
-export lb2="10.0.0.111"
-export lb3="10.0.0.112"
-export vip="10.0.0.66"
-export eth="ens160"
-export lb="10.0.0.110 10.0.0.111 10.0.0.112"
+export lb1="192.168.1.130"
+export lb2="192.168.1.132"
+export lb3="192.168.1.131"
+export vip="192.168.1.22"
+export eth="eth0"
+export lb="192.168.1.130 192.168.1.132 192.168.1.131"
 
 略
 ```
@@ -130,7 +134,6 @@ export lb="10.0.0.110 10.0.0.111 10.0.0.112"
 #### 执行部署程序
 
 ```shell
-
 vim  main.yaml
 # 在执行此playbook时，请先 cd files/ 执行 bash download.sh
 
@@ -146,7 +149,7 @@ vim  main.yaml
   - kube_node
   remote_user: root
   vars:
-    - all: 10.0.0.110 10.0.0.111 10.0.0.112 10.0.0.113 10.0.0.114
+    - all: 192.168.1.130 192.168.1.131 192.168.1.132 192.168.1.128 192.168.1.129
     - passwd: 123123
   roles:
     - role: local_init
@@ -155,6 +158,8 @@ vim  main.yaml
     - role: kernel
     - role: containerd
     - role: docker
+
+
 
 # 创建证书初始化 
 # hosts 写【kube master 01】所在的IP地址 【建议在 kube master 01 上执行】
@@ -173,10 +178,11 @@ vim  main.yaml
   roles:
     - role: pki
   vars:
-    - all: 10.0.0.110 10.0.0.111 10.0.0.112 10.0.0.113 10.0.0.114
-    - etcd: 10.0.0.110 10.0.0.111 10.0.0.112
-    - Master:  10.0.0.110 10.0.0.111 10.0.0.112
-    - Work: 10.0.0.113 10.0.0.114
+    - all: 192.168.1.130 192.168.1.131 192.168.1.132 192.168.1.128 192.168.1.129
+    - etcd: 192.168.1.130 192.168.1.131 192.168.1.132
+    - Master: 192.168.1.130 192.168.1.131 192.168.1.132
+    - Work: 192.168.1.128 192.168.1.129
+
 
 # # 初始化etcd集群
 # # hosts 写【etcd】所在的IP地址
@@ -186,6 +192,7 @@ vim  main.yaml
   remote_user: root
   roles:
     - role: etcd
+
 
 # 初始化master集群
 # hosts 写【kube_master】所在的IP地址
@@ -201,6 +208,7 @@ vim  main.yaml
     - role: kube_master
     - role: completion
 
+
 # 初始化node集群
 # hosts 写【kube_master kube_node】所在的IP地址
 # hosts 中的IP若在 /etc/ansible/hosts 中写过即此处无需再写
@@ -211,14 +219,14 @@ vim  main.yaml
   roles:
     - role: kube_node
 
+
 # 执行部署，hosts写master 随机一个IP即可 calico 和 cilium 二选一即可
 - hosts: 
   - kube_pki
   remote_user: root
   roles:
-    # - role: calico
-    - role: cilium
-    - role: coredns
+    - role: calico
+    # - role: cilium
     - role: coredns
     - role: dashboard
     - role: ingress
@@ -256,6 +264,8 @@ root@cby:~/cby/roles# tree .
 │   └── tasks
 │       └── main.yaml
 ├── completion
+│   ├── files
+│   │   └── source.sh
 │   └── tasks
 │       └── main.yaml
 ├── containerd
@@ -282,9 +292,12 @@ root@cby:~/cby/roles# tree .
 │   ├── defaults
 │   │   └── main.yaml
 │   ├── files
+│   │   ├── containerd.service
 │   │   ├── cri-docker.service
 │   │   ├── cri-docker.socket
-│   │   └── daemon.json
+│   │   ├── daemon.json
+│   │   ├── docker.service
+│   │   └── docker.socket
 │   └── tasks
 │       └── main.yaml
 ├── etcd
@@ -297,7 +310,19 @@ root@cby:~/cby/roles# tree .
 │   └── templates
 │       └── etcd.config.yml.j2
 ├── files
-│   └── download.sh
+│   ├── cfssl
+│   ├── cfssljson
+│   ├── cni-plugins-linux-amd64-v1.1.1.tgz
+│   ├── cri-containerd-cni-1.6.8-linux-amd64.tar.gz
+│   ├── crictl-v1.24.2-linux-amd64.tar.gz
+│   ├── cri-dockerd-0.2.5.amd64.tgz
+│   ├── docker-20.10.9.tgz
+│   ├── download.sh
+│   ├── etcd-v3.5.4-linux-amd64.tar.gz
+│   ├── helm-canary-linux-amd64.tar.gz
+│   ├── kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm
+│   ├── kubernetes-server-linux-amd64.tar.gz
+│   └── runc.amd64
 ├── ingress
 │   ├── files
 │   │   ├── backend.yaml
@@ -334,10 +359,9 @@ root@cby:~/cby/roles# tree .
 │   ├── files
 │   │   ├── check_apiserver.sh
 │   │   └── lb.sh
-│   ├── tasks
-│   │   ├── lb.yaml
-│   │   └── main.yaml
-│   └── templates
+│   └── tasks
+│       ├── lb.yaml
+│       └── main.yaml
 ├── local_init
 │   ├── defaults
 │   │   └── main.yaml
@@ -351,6 +375,7 @@ root@cby:~/cby/roles# tree .
 │   └── tasks
 │       ├── ipvs.yaml
 │       ├── kernel.yaml
+│       ├── libseccomp.yaml
 │       ├── limits.yaml
 │       ├── local.yaml
 │       ├── main.yaml
@@ -364,28 +389,40 @@ root@cby:~/cby/roles# tree .
 │   │   └── metrics-server.yaml
 │   └── tasks
 │       └── main.yaml
-└── pki
-    ├── files
-    │   ├── admin-csr.json
-    │   ├── apiserver-csr.json
-    │   ├── ca-config.json
-    │   ├── ca-csr.json
-    │   ├── etcd-ca-csr.json
-    │   ├── etcd-csr.json
-    │   ├── front-proxy-ca-csr.json
-    │   ├── front-proxy-client-csr.json
-    │   ├── kubelet-csr.json
-    │   ├── kube-proxy-csr.json
-    │   ├── manager-csr.json
-    │   ├── pki.sh
-    │   └── scheduler-csr.json
-    └── tasks
-        └── main.yaml
+├── pki
+│   ├── files
+│   │   ├── admin-csr.json
+│   │   ├── apiserver-csr.json
+│   │   ├── ca-config.json
+│   │   ├── ca-csr.json
+│   │   ├── etcd-ca-csr.json
+│   │   ├── etcd-csr.json
+│   │   ├── front-proxy-ca-csr.json
+│   │   ├── front-proxy-client-csr.json
+│   │   ├── kubelet-csr.json
+│   │   ├── kube-proxy-csr.json
+│   │   ├── manager-csr.json
+│   │   ├── pki.sh
+│   │   ├── scheduler-csr.json
+│   │   └── tar.sh
+│   └── tasks
+│       └── main.yaml
+└── README.md
 
-62 directories, 85 files
+62 directories, 104 files
 ```
 
+---
 
+2022-11-26更新
+
+· 适配 Ubuntu 和 CentOS7 和 CentOS8 环境
+
+· 优化内核安装逻辑过程
+
+· 优化docker安装过程
+
+· 优化整体安装部署过程缩短时间
 
 > **关于**
 >

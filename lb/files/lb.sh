@@ -1,10 +1,10 @@
 #!/bin/bash
-export lb1="10.0.0.110"
-export lb2="10.0.0.111"
-export lb3="10.0.0.112"
-export vip="10.0.0.66"
-export eth="ens160"
-export lb="10.0.0.110 10.0.0.111 10.0.0.112"
+export lb1="192.168.1.31"
+export lb2="192.168.1.32"
+export lb3="192.168.1.33"
+export vip="192.168.1.30"
+export eth="ens18"
+export lb="192.168.1.31 192.168.1.32 192.168.1.33"
 
 
 for HOST in $lb;do

@@ -1,0 +1,9 @@
+- name: update runc
+  shell: install -m 755 runc.amd64 /usr/local/sbin/runc && cp -p /usr/local/sbin/runc  /usr/local/bin/runc && cp -p /usr/local/sbin/runc  /usr/bin/runc
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: install libseccomp
+  shell: yum -y install http://rpmfind.net/linux/centos/8-stream/BaseOS/x86_64/os/Packages/libseccomp-2.5.1-1.el8.x86_64.rpm
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+

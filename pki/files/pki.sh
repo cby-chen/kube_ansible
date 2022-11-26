@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export k8s_master01="10.0.0.110"
-export k8s_master02="10.0.0.111"
-export k8s_master03="10.0.0.112"
-export lb_vip="10.0.0.66"
+export k8s_master01="192.168.1.31"
+export k8s_master02="192.168.1.32"
+export k8s_master03="192.168.1.33"
+export lb_vip="192.168.1.30"
 
 echo "生成etcd证书"
 cfssl gencert -initca etcd-ca-csr.json | cfssljson -bare /etc/etcd/ssl/etcd-ca

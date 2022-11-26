@@ -9,6 +9,8 @@
 # https://github.com/etcd-io/etcd/releases/
 # https://github.com/cloudflare/cfssl/releases/
 # https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
+# https://github.com/opencontainers/runc/releases/
+# https://download.docker.com/linux/static/stable/x86_64/
 
 # 指定版本 kubernetes 只能选择 v1.25.x
 
@@ -20,6 +22,28 @@ crictl='v1.24.2'
 cri_dockerd='0.2.5'
 cfssl='1.6.2'
 cfssljson='1.6.2'
+docker_v='20.10.9'
+runc='1.1.4'
+
+
+if [ ! -f "kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm" ];then
+wget http://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm
+else
+echo "文件存在"
+fi
+
+
+if [ ! -f "runc.amd64" ];then
+wget https://ghproxy.com/https://github.com/opencontainers/runc/releases/download/v${runc}/runc.amd64
+else
+echo "文件存在"
+fi
+
+if [ ! -f "docker-${docker_v}.tgz" ];then
+wget https://download.docker.com/linux/static/stable/x86_64/docker-${docker_v}.tgz 
+else
+echo "文件存在"
+fi
 
 
 if [ ! -f "cni-plugins-linux-amd64-${cni_plugins}.tgz" ];then
@@ -58,7 +82,7 @@ else
 echo "文件存在"
 fi
 
-if [ ! -f "ccfssl" ];then
+if [ ! -f "cfssl" ];then
 wget https://ghproxy.com/https://github.com/cloudflare/cfssl/releases/download/v${cfssl}/cfssl_${cfssl}_linux_amd64 -O cfssl
 else
 echo "文件存在"

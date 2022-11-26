@@ -1,8 +1,14 @@
-- name: CentOS install packages
+- name: CentOS7 install packages
   yum:
-    name: '{{ os_centos_packages_list }}'
+    name: '{{ os_centos7_packages_list }}'
     state: present
-  when: ansible_distribution == "CentOS"
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: CentOS8 install packages
+  yum:
+    name: '{{ os_centos8_packages_list }}'
+    state: present
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
 
 - name: Ubuntu install packages
   apt:

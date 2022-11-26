@@ -1,8 +1,3 @@
-- name: pkg copy 
-  copy: 
-    src: ../../files/
-    dest: /root/
-
 - name: Containerd
   shell: mkdir -p /etc/cni/net.d /opt/cni/bin && tar xf cni-plugins-linux-amd64-v*.tgz -C /opt/cni/bin/ && tar -xzf cri-containerd-cni-*-linux-amd64.tar.gz -C / && tar xf crictl-v*-linux-amd64.tar.gz -C /usr/bin/
 

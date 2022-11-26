@@ -21,3 +21,6 @@
 
 - name: local init | kernel
   import_tasks: kernel.yaml
+
+- name: local init | libseccomp
+  import_tasks: libseccomp.yaml
