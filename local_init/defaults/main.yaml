@@ -1,7 +1,7 @@
 ---
-os_centos7_packages_list: ['wget', 'jq', 'psmisc', 'vim', 'net-tools', 'nfs-utils', 'telnet', 'yum-utils', 'device-mapper-persistent-data', 'lvm2', 'git', 'tar', 'curl']
+os_centos7_packages_list: ['wget', 'psmisc', 'vim', 'net-tools', 'nfs-utils', 'telnet', 'yum-utils', 'device-mapper-persistent-data', 'lvm2', 'git', 'tar', 'curl']
 
-os_centos8_packages_list: ['wget', 'jq', 'psmisc', 'vim', 'net-tools', 'nfs-utils', 'telnet', 'yum-utils', 'device-mapper-persistent-data', 'lvm2', 'git', 'network-scripts', 'tar', 'curl']
+os_centos8_packages_list: ['wget', 'psmisc', 'vim', 'net-tools', 'nfs-utils', 'telnet', 'yum-utils', 'device-mapper-persistent-data', 'lvm2', 'git', 'network-scripts', 'tar', 'curl']
 
 os_ubuntu_packages_list: ['wget', 'psmisc', 'vim', 'net-tools', 'nfs-kernel-server',  'telnet', 'lvm2', 'git', 'tar', 'curl']
 
