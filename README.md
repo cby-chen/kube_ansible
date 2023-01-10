@@ -14,6 +14,9 @@ https://github.com/cby-chen/kube_ansible
 克隆仓库
 git clone https://github.com/cby-chen/kube_ansible
 
+如果网络不好可以使用我的代理克隆
+git clone https://mirrors.chenby.cn/https://github.com/cby-chen/kube_ansible
+
 注意切换版本
 cd v1.25
 cd v1.26
@@ -242,181 +245,6 @@ ansible-playbook  main.yaml
 
 ```
 
-#### 目录结构
-
-```shell
-root@cby:~/cby/roles# tree .
-.
-├── calico
-│   ├── files
-│   │   └── calico.yaml
-│   └── tasks
-│       └── main.yaml
-├── chrony
-│   ├── defaults
-│   │   └── main.yml
-│   ├── handlers
-│   │   └── main.yaml
-│   ├── tasks
-│   │   └── main.yaml
-│   └── templates
-│       ├── client.conf.j2
-│       └── server.conf.j2
-├── cilium
-│   ├── files
-│   │   ├── connectivity-check.yaml
-│   │   └── monitoring-example.yaml
-│   └── tasks
-│       └── main.yaml
-├── completion
-│   ├── files
-│   │   └── source.sh
-│   └── tasks
-│       └── main.yaml
-├── containerd
-│   ├── files
-│   │   ├── 99-kubernetes-cri.conf
-│   │   ├── containerd.conf
-│   │   ├── containerd.service
-│   │   ├── crictl.yaml
-│   │   └── hosts.toml
-│   └── tasks
-│       └── main.yaml
-├── coredns
-│   ├── files
-│   │   └── coredns.yaml
-│   └── tasks
-│       └── main.yaml
-├── dashboard
-│   ├── files
-│   │   ├── dashboard-user.yaml
-│   │   └── dashboard.yaml
-│   └── tasks
-│       └── main.yaml
-├── docker
-│   ├── defaults
-│   │   └── main.yaml
-│   ├── files
-│   │   ├── containerd.service
-│   │   ├── cri-docker.service
-│   │   ├── cri-docker.socket
-│   │   ├── daemon.json
-│   │   ├── docker.service
-│   │   └── docker.socket
-│   └── tasks
-│       └── main.yaml
-├── etcd
-│   ├── defaults
-│   │   └── main.yml
-│   ├── files
-│   │   └── etcd.service
-│   ├── tasks
-│   │   └── main.yaml
-│   └── templates
-│       └── etcd.config.yml.j2
-├── files
-│   ├── cfssl
-│   ├── cfssljson
-│   ├── cni-plugins-linux-amd64-v1.1.1.tgz
-│   ├── cri-containerd-cni-1.6.8-linux-amd64.tar.gz
-│   ├── crictl-v1.24.2-linux-amd64.tar.gz
-│   ├── cri-dockerd-0.2.5.amd64.tgz
-│   ├── docker-20.10.9.tgz
-│   ├── download.sh
-│   ├── etcd-v3.5.4-linux-amd64.tar.gz
-│   ├── helm-canary-linux-amd64.tar.gz
-│   ├── kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm
-│   ├── kubernetes-server-linux-amd64.tar.gz
-│   └── runc.amd64
-├── ingress
-│   ├── files
-│   │   ├── backend.yaml
-│   │   ├── deploy.yaml
-│   │   └── ingress-demo-app.yaml
-│   └── tasks
-│       └── main.yaml
-├── kernel
-│   └── tasks
-│       └── main.yaml
-├── kube_master
-│   ├── files
-│   │   └── bootstrap.secret.yaml
-│   ├── tasks
-│   │   └── main.yaml
-│   ├── templates
-│   │   ├── kube-apiserver.service.j2
-│   │   ├── kube-controller-manager.service.j2
-│   │   └── kube-scheduler.service.j2
-│   └── vars
-│       └── main.yml
-├── kube_node
-│   ├── files
-│   │   ├── kubelet-conf.yml
-│   │   └── kube-proxy.yaml
-│   ├── tasks
-│   │   └── main.yaml
-│   ├── templates
-│   │   ├── kubelet.service.j2
-│   │   └── kube-proxy.service.j2
-│   └── vars
-│       └── main.yml
-├── lb
-│   ├── files
-│   │   ├── check_apiserver.sh
-│   │   └── lb.sh
-│   └── tasks
-│       ├── lb.yaml
-│       └── main.yaml
-├── local_init
-│   ├── defaults
-│   │   └── main.yaml
-│   ├── files
-│   │   ├── calico.conf
-│   │   ├── ipvs.conf
-│   │   ├── kernel.conf
-│   │   └── limits.conf
-│   ├── handlers
-│   │   └── main.yaml
-│   └── tasks
-│       ├── ipvs.yaml
-│       ├── kernel.yaml
-│       ├── libseccomp.yaml
-│       ├── limits.yaml
-│       ├── local.yaml
-│       ├── main.yaml
-│       ├── network.yaml
-│       ├── repo.yaml
-│       ├── sshpass.yaml
-│       └── yum.yaml
-├── main.yaml
-├── metrics-server
-│   ├── files
-│   │   └── metrics-server.yaml
-│   └── tasks
-│       └── main.yaml
-├── pki
-│   ├── files
-│   │   ├── admin-csr.json
-│   │   ├── apiserver-csr.json
-│   │   ├── ca-config.json
-│   │   ├── ca-csr.json
-│   │   ├── etcd-ca-csr.json
-│   │   ├── etcd-csr.json
-│   │   ├── front-proxy-ca-csr.json
-│   │   ├── front-proxy-client-csr.json
-│   │   ├── kubelet-csr.json
-│   │   ├── kube-proxy-csr.json
-│   │   ├── manager-csr.json
-│   │   ├── pki.sh
-│   │   ├── scheduler-csr.json
-│   │   └── tar.sh
-│   └── tasks
-│       └── main.yaml
-└── README.md
-
-62 directories, 104 files
-```
-
 #### dashboard 使用方法
 ```shell
 
@@ -450,6 +278,325 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6IkFZWENLUmZQWTViWUF4UV81NWJNb0JEa0I4R2hQMHVac2J3RDM3
 · 优化docker安装过程
 
 · 优化整体安装部署过程缩短时间
+
+
+#### 目录结构
+
+```shell
+.
+├── README.md
+├── v1.25
+│   ├── calico
+│   │   ├── files
+│   │   │   └── calico.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── chrony
+│   │   ├── defaults
+│   │   │   └── main.yml
+│   │   ├── handlers
+│   │   │   └── main.yaml
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   └── templates
+│   │       ├── client.conf.j2
+│   │       └── server.conf.j2
+│   ├── cilium
+│   │   ├── files
+│   │   │   ├── connectivity-check.yaml
+│   │   │   └── monitoring-example.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── completion
+│   │   ├── files
+│   │   │   └── source.sh
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── containerd
+│   │   ├── files
+│   │   │   ├── 99-kubernetes-cri.conf
+│   │   │   ├── containerd.conf
+│   │   │   ├── containerd.service
+│   │   │   ├── crictl.yaml
+│   │   │   └── hosts.toml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── coredns
+│   │   ├── files
+│   │   │   └── coredns.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── dashboard
+│   │   ├── files
+│   │   │   ├── dashboard-user.yaml
+│   │   │   └── dashboard.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── docker
+│   │   ├── defaults
+│   │   │   └── main.yaml
+│   │   ├── files
+│   │   │   ├── containerd.service
+│   │   │   ├── cri-docker.service
+│   │   │   ├── cri-docker.socket
+│   │   │   ├── daemon.json
+│   │   │   ├── docker.service
+│   │   │   └── docker.socket
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── etcd
+│   │   ├── defaults
+│   │   │   └── main.yml
+│   │   ├── files
+│   │   │   └── etcd.service
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   └── templates
+│   │       └── etcd.config.yml.j2
+│   ├── files
+│   │   └── download.sh
+│   ├── ingress
+│   │   ├── files
+│   │   │   ├── backend.yaml
+│   │   │   ├── deploy.yaml
+│   │   │   └── ingress-demo-app.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── kernel
+│   │   └── tasks
+│   │       └── main.yaml
+│   ├── kube_master
+│   │   ├── files
+│   │   │   └── bootstrap.secret.yaml
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   ├── templates
+│   │   │   ├── kube-apiserver.service.j2
+│   │   │   ├── kube-controller-manager.service.j2
+│   │   │   └── kube-scheduler.service.j2
+│   │   └── vars
+│   │       └── main.yml
+│   ├── kube_node
+│   │   ├── files
+│   │   │   ├── kubelet-conf.yml
+│   │   │   └── kube-proxy.yaml
+│   │   ├── tasks
+│   │   │   └── main.yaml
+│   │   ├── templates
+│   │   │   ├── kubelet.service.j2
+│   │   │   └── kube-proxy.service.j2
+│   │   └── vars
+│   │       └── main.yml
+│   ├── lb
+│   │   ├── files
+│   │   │   ├── check_apiserver.sh
+│   │   │   └── lb.sh
+│   │   └── tasks
+│   │       ├── lb.yaml
+│   │       └── main.yaml
+│   ├── local_init
+│   │   ├── defaults
+│   │   │   └── main.yaml
+│   │   ├── files
+│   │   │   ├── calico.conf
+│   │   │   ├── ipvs.conf
+│   │   │   ├── kernel.conf
+│   │   │   └── limits.conf
+│   │   ├── handlers
+│   │   │   └── main.yaml
+│   │   └── tasks
+│   │       ├── ipvs.yaml
+│   │       ├── kernel.yaml
+│   │       ├── libseccomp.yaml
+│   │       ├── limits.yaml
+│   │       ├── local.yaml
+│   │       ├── main.yaml
+│   │       ├── network.yaml
+│   │       ├── repo.yaml
+│   │       ├── sshpass.yaml
+│   │       └── yum.yaml
+│   ├── main.yaml
+│   ├── metrics-server
+│   │   ├── files
+│   │   │   └── metrics-server.yaml
+│   │   └── tasks
+│   │       └── main.yaml
+│   └── pki
+│       ├── files
+│       │   ├── admin-csr.json
+│       │   ├── apiserver-csr.json
+│       │   ├── ca-config.json
+│       │   ├── ca-csr.json
+│       │   ├── etcd-ca-csr.json
+│       │   ├── etcd-csr.json
+│       │   ├── front-proxy-ca-csr.json
+│       │   ├── front-proxy-client-csr.json
+│       │   ├── kubelet-csr.json
+│       │   ├── kube-proxy-csr.json
+│       │   ├── manager-csr.json
+│       │   ├── pki.sh
+│       │   ├── scheduler-csr.json
+│       │   └── tar.sh
+│       └── tasks
+│           └── main.yaml
+└── v1.26
+    ├── calico
+    │   ├── files
+    │   │   └── calico.yaml
+    │   └── tasks
+    │       └── main.yaml
+    ├── chrony
+    │   ├── defaults
+    │   │   └── main.yml
+    │   ├── handlers
+    │   │   └── main.yaml
+    │   ├── tasks
+    │   │   └── main.yaml
+    │   └── templates
+    │       ├── client.conf.j2
+    │       └── server.conf.j2
+    ├── cilium
+    │   ├── files
+    │   │   ├── connectivity-check.yaml
+    │   │   └── monitoring-example.yaml
+    │   └── tasks
+    │       └── main.yaml
+    ├── completion
+    │   ├── files
+    │   │   └── source.sh
+    │   └── tasks
+    │       └── main.yaml
+    ├── containerd
+    │   ├── files
+    │   │   ├── 99-kubernetes-cri.conf
+    │   │   ├── containerd.conf
+    │   │   ├── containerd.service
+    │   │   ├── crictl.yaml
+    │   │   └── hosts.toml
+    │   └── tasks
+    │       └── main.yaml
+    ├── coredns
+    │   ├── files
+    │   │   └── coredns.yaml
+    │   └── tasks
+    │       └── main.yaml
+    ├── dashboard
+    │   ├── files
+    │   │   ├── dashboard-user.yaml
+    │   │   └── dashboard.yaml
+    │   └── tasks
+    │       └── main.yaml
+    ├── docker
+    │   ├── defaults
+    │   │   └── main.yaml
+    │   ├── files
+    │   │   ├── containerd.service
+    │   │   ├── cri-docker.service
+    │   │   ├── cri-docker.socket
+    │   │   ├── daemon.json
+    │   │   ├── docker.service
+    │   │   └── docker.socket
+    │   └── tasks
+    │       └── main.yaml
+    ├── etcd
+    │   ├── defaults
+    │   │   └── main.yml
+    │   ├── files
+    │   │   └── etcd.service
+    │   ├── tasks
+    │   │   └── main.yaml
+    │   └── templates
+    │       └── etcd.config.yml.j2
+    ├── files
+    │   └── download.sh
+    ├── ingress
+    │   ├── files
+    │   │   ├── backend.yaml
+    │   │   ├── deploy.yaml
+    │   │   └── ingress-demo-app.yaml
+    │   └── tasks
+    │       └── main.yaml
+    ├── kernel
+    │   └── tasks
+    │       └── main.yaml
+    ├── kube_master
+    │   ├── files
+    │   │   └── bootstrap.secret.yaml
+    │   ├── tasks
+    │   │   └── main.yaml
+    │   ├── templates
+    │   │   ├── kube-apiserver.service.j2
+    │   │   ├── kube-controller-manager.service.j2
+    │   │   └── kube-scheduler.service.j2
+    │   └── vars
+    │       └── main.yml
+    ├── kube_node
+    │   ├── files
+    │   │   ├── kubelet-conf.yml
+    │   │   └── kube-proxy.yaml
+    │   ├── tasks
+    │   │   └── main.yaml
+    │   ├── templates
+    │   │   ├── kubelet.service.j2
+    │   │   └── kube-proxy.service.j2
+    │   └── vars
+    │       └── main.yml
+    ├── lb
+    │   ├── files
+    │   │   ├── check_apiserver.sh
+    │   │   └── lb.sh
+    │   └── tasks
+    │       ├── lb.yaml
+    │       └── main.yaml
+    ├── local_init
+    │   ├── defaults
+    │   │   └── main.yaml
+    │   ├── files
+    │   │   ├── calico.conf
+    │   │   ├── ipvs.conf
+    │   │   ├── kernel.conf
+    │   │   └── limits.conf
+    │   ├── handlers
+    │   │   └── main.yaml
+    │   └── tasks
+    │       ├── ipvs.yaml
+    │       ├── kernel.yaml
+    │       ├── libseccomp.yaml
+    │       ├── limits.yaml
+    │       ├── local.yaml
+    │       ├── main.yaml
+    │       ├── network.yaml
+    │       ├── repo.yaml
+    │       ├── sshpass.yaml
+    │       └── yum.yaml
+    ├── main.yaml
+    ├── metrics-server
+    │   ├── files
+    │   │   └── metrics-server.yaml
+    │   └── tasks
+    │       └── main.yaml
+    └── pki
+        ├── files
+        │   ├── admin-csr.json
+        │   ├── apiserver-csr.json
+        │   ├── ca-config.json
+        │   ├── ca-csr.json
+        │   ├── etcd-ca-csr.json
+        │   ├── etcd-csr.json
+        │   ├── front-proxy-ca-csr.json
+        │   ├── front-proxy-client-csr.json
+        │   ├── kubelet-csr.json
+        │   ├── kube-proxy-csr.json
+        │   ├── manager-csr.json
+        │   ├── pki.sh
+        │   ├── scheduler-csr.json
+        │   └── tar.sh
+        └── tasks
+            └── main.yaml
+
+126 directories, 183 files
+
+```
 
 > **关于**
 >
