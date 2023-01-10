@@ -1,0 +1,5 @@
+- name: 123
+  import_tasks: local_init/tasks/local.yaml
+
+- name: local init | kernel
+  import_tasks: lb.yaml

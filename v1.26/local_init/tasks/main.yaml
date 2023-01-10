@@ -1,0 +1,26 @@
+- name: local init | sshpass
+  import_tasks: sshpass.yaml
+
+- name: local init | repo
+  import_tasks: repo.yaml
+
+- name: local init | yum
+  import_tasks: yum.yaml
+
+- name: local init | local
+  import_tasks: local.yaml
+
+- name: local init | Network
+  import_tasks: network.yaml
+
+- name: local init | limits
+  import_tasks: limits.yaml
+
+- name: local init | ipvs
+  import_tasks: ipvs.yaml
+
+- name: local init | kernel
+  import_tasks: kernel.yaml
+
+- name: local init | libseccomp
+  import_tasks: libseccomp.yaml

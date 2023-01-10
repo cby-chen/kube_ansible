@@ -1,0 +1,44 @@
+- name: cfssl
+  copy:
+    src: ../../files/cfssl
+    dest: /usr/local/bin/cfssl
+
+- name: cfssljson
+  copy:
+    src: ../../files/cfssljson
+    dest: /usr/local/bin/cfssljson
+
+- name: tar xvf
+  shell: tar -xf kubernetes-server-linux-amd64.tar.gz  --strip-components=3 -C /usr/local/bin kubernetes/server/bin/kube{let,ctl,-apiserver,-controller-manager,-scheduler,-proxy} && tar -xf etcd*.tar.gz && mv etcd-*/etcd /usr/local/bin/ && mv etcd-*/etcdctl /usr/local/bin/ && chmod +x /usr/local/bin/cfssl /usr/local/bin/cfssljson && mkdir /etc/etcd/ssl -p && mkdir -p /etc/kubernetes/pki
+  when: ansible_distribution == "CentOS"
+  
+- name: tar xvf
+  script: tar.sh
+  when: ansible_distribution == "Ubuntu"
+
+- name: copy pki
+  copy: 
+    src: files/
+    dest: /root/files/
+
+- name: rm etcd pki 
+  shell: rm -rf /etc/etcd/ssl/* && rm -rf /etc/kubernetes/pki/etcd/
+
+- name: pki
+  shell: cd /root/files/ && bash pki.sh
+
+- name: scp pkg
+  shell: for NODE in {{ Master }}; do echo $NODE; scp /usr/local/bin/kube* $NODE:/usr/local/bin/; scp /usr/local/bin/etcd* $NODE:/usr/local/bin/; done && for NODE in {{ Work }}; do scp /usr/local/bin/kube* $NODE:/usr/local/bin/ ; done
+
+- name: scp etcd pki
+  shell: for NODE in {{ etcd }}; do ssh $NODE "mkdir -p /etc/etcd/ssl"; for FILE in etcd-ca-key.pem  etcd-ca.pem  etcd-key.pem  etcd.pem; do scp /etc/etcd/ssl/${FILE} $NODE:/etc/etcd/ssl/${FILE}; done; done
+
+- name: mkdir k8s master pki
+  shell: for NODE in {{ Master }}; do ssh $NODE mkdir -p /etc/kubernetes/pki; done
+  
+
+- name: scp k8s master pki
+  shell: for NODE in {{ Master }}; do  for FILE in $(ls /etc/kubernetes/pki | grep -v etcd); do  scp /etc/kubernetes/pki/${FILE} $NODE:/etc/kubernetes/pki/${FILE}; done;  for FILE in admin.kubeconfig controller-manager.kubeconfig scheduler.kubeconfig; do  scp /etc/kubernetes/${FILE} $NODE:/etc/kubernetes/${FILE}; done; done
+
+- name: scp k8s node pki
+  shell: for NODE in {{ all }};do ssh $NODE mkdir -p /etc/kubernetes/pki; for FILE in pki/ca.pem pki/ca-key.pem pki/front-proxy-ca.pem bootstrap-kubelet.kubeconfig kube-proxy.kubeconfig; do scp /etc/kubernetes/$FILE $NODE:/etc/kubernetes/${FILE}; done; done

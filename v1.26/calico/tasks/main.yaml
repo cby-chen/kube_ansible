@@ -1,0 +1,7 @@
+- name: calico.yaml
+  copy: 
+    src: calico.yaml
+    dest: /root/
+
+- name: calico
+  shell: kubectl apply -f calico.yaml

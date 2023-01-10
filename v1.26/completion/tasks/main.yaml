@@ -1,0 +1,19 @@
+- name: CentOS install bash-completion 
+  yum:
+    name: bash-completion
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install bash-completion
+  apt:
+    name: bash-completion
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: source.sh
+  copy: 
+    src: source.sh
+    dest: /root/
+
+- name: source
+  shell: bash source.sh

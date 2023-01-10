@@ -2,7 +2,7 @@
 
 #### 执行此脚本需要在单独的机器执行，在集群之外的机器上执行，因为过程中需要重启集群
 
-此脚本可以部署kubernetes 1.25.x 系列环境
+适配 v1.25.x 和 v1.26.x 环境
 
 Ubuntu 和 CentOS7 和 CentOS8 已支持
 
@@ -13,6 +13,11 @@ https://github.com/cby-chen/kube_ansible
 ```shell
 克隆仓库
 git clone https://github.com/cby-chen/kube_ansible
+
+注意切换版本
+cd v1.25
+cd v1.26
+
 
 在控制主机上进行配置免密
 apt install -y sshpass
@@ -412,7 +417,29 @@ root@cby:~/cby/roles# tree .
 62 directories, 104 files
 ```
 
+#### dashboard 使用方法
+```shell
+
+修改网络为NodePort
+kubectl edit svc kubernetes-dashboard
+  type: NodePort
+
+查看端口
+kubectl get svc kubernetes-dashboard -n kubernetes-dashboard
+NAME                   TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+kubernetes-dashboard   NodePort   10.108.120.110   <none>        443:30034/TCP   34s
+
+创建token
+kubectl -n kubernetes-dashboard create token admin-user
+eyJhbGciOiJSUzI1NiIsImtpZCI6IkFZWENLUmZQWTViWUF4UV81NWJNb0JEa0I4R2hQMHVac2J3RDM3RHJLcFEifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjcwNjc0MzY1LCJpYXQiOjE2NzA2NzA3NjUsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiODkyODRjNGUtYzk0My00ODkzLWE2ZjctNTYxZWJhMzE2NjkwIn19LCJuYmYiOjE2NzA2NzA3NjUsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.DFxzS802Iu0lldikjhyp2diZSpVAUoSTbOjerH2t7ToM0TMoPQdcdDyvBTcNlIew3F01u4D6atNV7J36IGAnHEX0Q_cYAb00jINjy1YXGz0gRhRE0hMrXay2-Qqo6tAORTLUVWrctW6r0li5q90rkBjr5q06Lt5BTpUhbhbgLQQJWwiEVseCpUEikxD6wGnB1tCamFyjs3sa-YnhhqCR8wUAZcTaeVbMxCuHVAuSqnIkxat9nyxGcsjn7sqmBqYjjOGxp5nhHPDj03TWmSJlb_Csc7pvLsB9LYm0IbER4xDwtLZwMAjYWRbjKxbkUp4L9v5CZ4PbIHap9qQp1FXreA
+```
+
 ---
+
+2023-1-10 更新
+
+· 适配v1.26.x 版本
+
 
 2022-11-26更新
 

@@ -1,0 +1,15 @@
+- name: monitoring-example.yaml
+  copy: 
+    src: connectivity-check.yaml
+    dest: /root/
+
+- name: monitoring-example.yaml
+  copy: 
+    src: monitoring-example.yaml
+    dest: /root/
+
+- name: cilium helm
+  shell: cd /root/ && tar xvf helm-canary-linux-amd64.tar.gz -C /usr/local/bin/ && mv /usr/local/bin/linux-amd64/helm  /usr/local/bin/
+
+- name: cilium
+  shell: helm repo add cilium https://helm.cilium.io && helm install cilium cilium/cilium    --namespace kube-system

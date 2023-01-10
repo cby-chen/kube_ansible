@@ -1,0 +1,27 @@
+- name: CentOS install chrony
+  yum:
+    name: chrony
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install chrony
+  apt: 
+    name: chrony
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: config chrony server
+  template: src=server.conf.j2 dest=/etc/chrony.conf
+  when: 'inventory_hostname == groups.chrony[0]'
+  notify: chronyd
+
+- name: config chrony client
+  template: src=client.conf.j2 dest=/etc/chrony.conf
+  when: 'inventory_hostname != groups.chrony[0]'
+  notify: chronyd
+
+- name: service chronyd
+  service: 
+    name: chronyd
+    state: restarted
+    enabled: yes

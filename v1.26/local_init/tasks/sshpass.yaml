@@ -1,0 +1,14 @@
+- name: CentOS install sshpass 
+  yum:
+    name: sshpass
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install sshpass
+  apt:
+    name: sshpass
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: sshpass
+  shell: rm -rf /root/.ssh/id_rsa && ssh-keygen -f /root/.ssh/id_rsa -P '' && export SSHPASS={{ passwd }} && export IP="{{ all }}" && for HOST in $IP;do sshpass -e ssh-copy-id -o StrictHostKeyChecking=no $HOST; done

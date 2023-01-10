@@ -1,0 +1,43 @@
+- name: CentOS install lb 
+  yum:
+    name: 
+      - keepalived
+      - haproxy
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: Ubuntu install lb
+  apt:
+    name: 
+      - keepalived
+      - haproxy
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: lb.sh
+  copy:
+    src: lb.sh
+    dest: /root/
+
+- name: check_apiserver.sh
+  copy:
+    src: check_apiserver.sh 
+    dest: /etc/keepalived/
+
+- name: bash lb.sh
+  shell: cd /root/ && bash lb.sh
+
+- name: daemon reload
+  shell: systemctl daemon-reload
+
+- name: service keepalived
+  service: 
+    name: keepalived
+    state: restarted
+    enabled: yes
+
+- name: service haproxy
+  service: 
+    name: haproxy
+    state: restarted
+    enabled: yes

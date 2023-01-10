@@ -8,5 +8,5 @@
     src: dashboard-user.yaml
     dest: /root/
 
-- name: calico
+- name: dashboard
   shell: kubectl apply -f dashboard.yaml &&  kubectl apply -f dashboard-user.yaml

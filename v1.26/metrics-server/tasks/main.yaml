@@ -1,0 +1,7 @@
+- name: metrics-server.yaml
+  copy: 
+    src: metrics-server.yaml
+    dest: /root/
+
+- name: metrics-server 
+  shell: kubectl apply -f metrics-server.yaml

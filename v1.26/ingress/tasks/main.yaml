@@ -1,0 +1,12 @@
+- name: deploy.yaml
+  copy: 
+    src: deploy.yaml 
+    dest: /root/
+
+- name: backend.yaml
+  copy: 
+    src: backend.yaml 
+    dest: /root/
+
+- name: calico
+  shell: kubectl  apply -f deploy.yaml && kubectl  apply -f backend.yaml 
