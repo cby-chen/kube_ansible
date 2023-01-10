@@ -1,0 +1,6 @@
+---
+os_centos_packages_list: ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
+
+os_ubuntu_packages_list: ['apt-transport-https', 'ca-certificates', 'gnupg-agent', 'software-properties-common']
+
+docker_list: ['docker-ce', 'docker-ce-cli', 'containerd.io']

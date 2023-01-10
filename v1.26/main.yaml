@@ -20,7 +20,7 @@
       when: "groups['chrony']|length > 0" 
     - role: kernel
     - role: containerd
-
+    - role: docker
 
 
 # 创建证书初始化 

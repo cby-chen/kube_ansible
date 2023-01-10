@@ -1,0 +1,15 @@
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "registry-mirrors": [
+    "https://docker.mirrors.ustc.edu.cn",
+    "http://hub-mirror.c.163.com"
+  ],
+  "max-concurrent-downloads": 10,
+  "log-driver": "json-file",
+  "log-level": "warn",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+    },
+  "data-root": "/var/lib/docker"
+}

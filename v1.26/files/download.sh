@@ -14,15 +14,15 @@
 
 # 指定版本 kubernetes 只能选择 v1.25.x
 
-kubernetes_server='v1.25.2'
-etcd='v3.5.4'
+kubernetes_server='v1.26.0'
+etcd='v3.5.6'
 cni_plugins='v1.1.1'
-cri_containerd_cni='1.6.8'
-crictl='v1.24.2'
-cri_dockerd='0.2.5'
-cfssl='1.6.2'
-cfssljson='1.6.2'
-docker_v='20.10.9'
+cri_containerd_cni='1.6.15'
+crictl='v1.26.0'
+cri_dockerd='0.3.0'
+cfssl='1.6.3'
+cfssljson='1.6.3'
+docker_v='20.10.22'
 runc='1.1.4'
 
 
