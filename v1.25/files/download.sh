@@ -11,6 +11,7 @@
 # https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
 # https://github.com/opencontainers/runc/releases/
 # https://download.docker.com/linux/static/stable/x86_64/
+# http://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/
 
 # 指定版本 kubernetes 只能选择 v1.25.x
 
