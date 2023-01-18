@@ -11,8 +11,9 @@
 # https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
 # https://github.com/opencontainers/runc/releases/
 # https://download.docker.com/linux/static/stable/x86_64/
+# https://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/
 
-# 指定版本 kubernetes 只能选择 v1.25.x
+# 指定版本 kubernetes 只能选择 v1.26.x
 
 kubernetes_server='v1.26.0'
 etcd='v3.5.6'
@@ -24,10 +25,10 @@ cfssl='1.6.3'
 cfssljson='1.6.3'
 docker_v='20.10.22'
 runc='1.1.4'
-
+kernel='5.4.224'
 
 if [ ! -f "kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm" ];then
-wget http://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm
+wget http://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/kernel-lt-${kernel}-1.el7.elrepo.x86_64.rpm
 else
 echo "文件存在"
 fi
