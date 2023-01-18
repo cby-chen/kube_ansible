@@ -25,7 +25,7 @@ cfssl='1.6.3'
 cfssljson='1.6.3'
 docker_v='20.10.22'
 runc='1.1.4'
-kernel='5.4.224'
+kernel='5.4.228'
 
 if [ ! -f "kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm" ];then
 wget http://mirrors.tuna.tsinghua.edu.cn/elrepo/kernel/el7/x86_64/RPMS/kernel-lt-${kernel}-1.el7.elrepo.x86_64.rpm
