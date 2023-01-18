@@ -90,7 +90,7 @@
     dest: /usr/lib/systemd/system/
 
 - name: systemctl
-  shell: systemctl daemon-reload
+  shell: chmod +x /usr/bin/cri-dockerd/cri-dockerd && systemctl daemon-reload
 
 - name: service cri-docker
   service: 
