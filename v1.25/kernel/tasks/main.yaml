@@ -1,5 +1,7 @@
 - name: CentOS 7 epel repo
-  shell: yum install https://www.elrepo.org/elrepo-release-7.el7.elrepo.noarch.rpm -y
+  yum:
+    name: https://www.elrepo.org/elrepo-release-7.el7.elrepo.noarch.rpm
+    state: present
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
 - name: CentOS 7 epel repo
@@ -9,6 +11,7 @@
 - name: CentOS 7 install kernel
   shell: yum install ./kernel-lt-*.el7.elrepo.x86_64.rpm  -y
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+  ignore_errors: yes
 
 - name: CentOS 7 set kernel
   shell: grubby --set-default $(ls /boot/vmlinuz-* | grep elrepo)
