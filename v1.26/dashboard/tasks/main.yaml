@@ -1,5 +1,5 @@
+- name: cilium helm
+  shell: cd /root/ && tar xvf helm-canary-linux-amd64.tar.gz -C /usr/local/bin/ && mv /usr/local/bin/linux-amd64/helm  /usr/local/bin/
+  
 - name: dashboard
   shell: helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ &&  helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
-
-
-
