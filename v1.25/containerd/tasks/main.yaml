@@ -26,7 +26,7 @@
     enabled: yes
 
 - name: creat config
-  shell: mkdir -p /etc/containerd && containerd config default | tee /etc/containerd/config.toml && sed -i "s#SystemdCgroup\ \=\ false#SystemdCgroup\ \=\ true#g" /etc/containerd/config.toml && sed -i "s#k8s.gcr.io#registry.cn-hangzhou.aliyuncs.com/chenby#g" /etc/containerd/config.toml && sed -i 's#config_path\ \=\ \"\"#config_path\ \=\ \"/etc/containerd/certs.d\"#g' /etc/containerd/config.toml && mkdir /etc/containerd/certs.d/docker.io -pv && systemctl daemon-reload
+  shell: mkdir -p /etc/containerd && containerd config default | tee /etc/containerd/config.toml && sed -i "s#SystemdCgroup\ \=\ false#SystemdCgroup\ \=\ true#g" /etc/containerd/config.toml && sed -i "s#registry.k8s.io#registry.cn-hangzhou.aliyuncs.com/chenby#g" /etc/containerd/config.toml && sed -i 's#config_path\ \=\ \"\"#config_path\ \=\ \"/etc/containerd/certs.d\"#g' /etc/containerd/config.toml && mkdir /etc/containerd/certs.d/docker.io -pv && systemctl daemon-reload
 
 - name: dockerhub config
   copy: 
