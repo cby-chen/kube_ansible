@@ -7,7 +7,7 @@
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
 - name: CentOS 7 install kernel
-  shell: yum install ./kernel-lt-5.4.224-1.el7.elrepo.x86_64.rpm  -y
+  shell: yum install ./kernel-lt-*.el7.elrepo.x86_64.rpm  -y
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
 - name: CentOS 7 set kernel
